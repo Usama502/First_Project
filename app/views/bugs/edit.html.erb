@@ -1,0 +1,61 @@
+<h1>Edit <%= @bug.title %> Bug</h1>
+<hr />
+<div class="row">
+	<div class="col-md-4">
+		<%= form_for(@bug, :html => {class: "form-horizontal", role:"form"}) do |new|%>
+			<div class="form-group">
+				<%= new.label :title%>
+				<%= new.text_field :title , class: "form-control" ,placeholder: "Title of Bug", autofocus: true %>
+			</div>
+
+			<div class="form-group">
+				<%= new.label :description%>
+				<%= new.text_area :description ,rows: 5, class: "form-control" ,placeholder: "Enter Description of Bug", autofocus: true %>
+			</div>
+
+			<div class="form-group">
+	        	<%= new.label :type %><br />
+	        	<%= new.select :bug_type, ["Feature","Bug"], autofocus: true, autocomplete: "bug_type" %>
+	      	</div>
+
+	      	<% if @bug.bug_type == "Feature" %>
+		      	<div class="form-group">
+		        	<%= new.label :status %><br />
+		        	<%= new.select :status, ["New", "Started", "Completed"], autofocus: true, autocomplete: "status" %>
+		      	</div>
+		    <% end %>
+
+		    <% if @bug.bug_type == "Bug" %>
+		      	<div class="form-group">
+		        	<%= new.label :status %><br />
+		        	<%= new.select :status, ["New", "Started", "Resolved"], autofocus: true, autocomplete: "status" %>
+		      	</div>
+			<% end %>
+
+			<div class="form-group">
+	      		<%= new.label :deadline %><br />
+	      		<%= new.date_field :deadline, autofocus: true, class:"date_field" ,autocomplete: "deadline" %>
+			</div>
+
+			<div class="form-group">
+	        	<%= new.label :project_id %><br />
+	        	<%= new.select :project_id, Project.all.map{|r| [r.name, r.id]}  %>
+	      	</div>
+
+	      	<div class="form-group">
+	        	<%= new.label :developer_id %><br />
+	        	<%= new.select :developer_id, User.where(:user_type => "Developer").map{|r| [r.name, r.id]}  %>
+	      	</div>
+
+	      	<div class="form-group">
+			    <%= new.file_field :image %>
+	      	</div>
+
+			<div class="form-group">
+				<%= new.submit class: "btn btn-primary btn-xlarge"%>
+			</div>
+
+		<% end %>
+	</div>
+</div>
+<hr/>

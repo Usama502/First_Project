@@ -1,0 +1,14 @@
+<h1><%= @bug.title.capitalize %></h1>
+<hr />
+<div class="row">
+	<div class="col-md-8">
+		<h3> Description </h3>
+		<p style="font-size: 18px"><%= simple_format(@bug.description) %></p>
+		<p style="font-size: 18px">Type: <%= @bug.bug_type %></p>
+		<p style="font-size: 18px">Status: <%= @bug.status %></p>
+		<p style="font-size: 18px">Assigned to: <%= @bug.developer_id %></p>
+		<p style="font-size: 18px">Related to: <%= @bug.project.name %></p>
+
+		<small style="font-size:10px">Created by: <%= @bug.user.name %></small>
+	</div>
+</div>
