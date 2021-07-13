@@ -1,13 +1,13 @@
 class ProjectsController < ApplicationController
 	
+	before_action :logged_in	
 	before_action :set_project, only: [:show, :edit, :update, :destroy]
 	before_action :require_manager, except: [:index, :show]
 	before_action :current_manger, only: [:edit, :destroy]
-	before_action :logged_in
 
 
 	def index
-		if(current_user.user_type== "Manager")
+		if(current_user.user_type == "Manager")
 	    	@user_projects = current_user.createProjects
 	    else
 	    	@user_projects = current_user.projects

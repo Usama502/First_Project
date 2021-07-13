@@ -1,6 +1,8 @@
 class BugsController < ApplicationController
 	
 	before_action :logged_in
+	before_action :require_manager_qa, except: [:index, :show, :edit, :update]
+
 
 	def index
 		if(current_user.user_type == "Manager" || current_user.user_type == "QA")
@@ -8,10 +10,6 @@ class BugsController < ApplicationController
 		else 
 			@bugs = Bug.where(:developer_id => current_user.id)
 		end
-	end
-
-	def home
-
 	end
 
 	def new
@@ -62,9 +60,16 @@ class BugsController < ApplicationController
 		end
 
 		def logged_in
-		if (!user_signed_in?)
+		if(!user_signed_in?)
 			flash[:danger] = "You have to logged in to perform this action!"
-			redirect_to bugs_path
+			redirect_to '/users/sign_in'
+		end
+
+		def require_manager_qa
+			if(current_user.user_type == "Developer")
+				flash[:danger] = "Manager and QA can perform this action!"
+				redirect_to bugs_path
+			end
 		end
 	end
 end
