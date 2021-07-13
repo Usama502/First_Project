@@ -1,6 +1,8 @@
 <h1>Edit <%= @project.name %> </h1>
+<hr />
+<%= render 'shared/errors' , obj: @project%>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<%= form_for(@project, :html => {class: "form-horizontal", role:"form"}) do |new| %>
 			<div class="form-group">
 				<%= new.label :name%>
@@ -12,6 +14,18 @@
 				<%= new.text_area :description ,rows: 10, class: "form-control" ,placeholder: "Enter Description of Project", autofocus: true %>
 			</div>
 			
+
+			<div class="form-group">	
+				<%= new.label :assigned_to , "Assigned to Developer"%>		
+				<%= new.collection_select :user_ids, User.where(:user_type => 'Developer'), :id, :name, {}, {:multiple => 'true'} %>
+			</div>
+
+			<div class="form-group">	
+				<%= new.label :assigned_to, "Assigned to QA"%>		
+				<%= new.collection_select :user_ids, User.where(:user_type => 'QA'), :id, :name, {}, {:multiple => 'true'} %>
+			</div>
+
+
 			<div class="form-group">
 				<%= new.submit class: "btn btn-primary btn-xlarge"%>
 			</div>

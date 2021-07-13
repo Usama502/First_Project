@@ -6,9 +6,12 @@
 		<p style="font-size: 18px"><%= simple_format(@bug.description) %></p>
 		<p style="font-size: 18px">Type: <%= @bug.bug_type %></p>
 		<p style="font-size: 18px">Status: <%= @bug.status %></p>
-		<p style="font-size: 18px">Assigned to: <%= @bug.developer_id %></p>
+		<p style="font-size: 18px">Assigned to: <%= @bug.developer.name  %></p>
 		<p style="font-size: 18px">Related to: <%= @bug.project.name %></p>
-
+		<p style="font-size: 18px">Deadline: <%= @bug.deadline.to_date %></p>
 		<small style="font-size:10px">Created by: <%= @bug.user.name %></small>
+	</div>
+	<div class="col-md-4">
+		<%= image_tag @bug.image_url() ,  class: "bug-ss" if @bug.image? %>
 	</div>
 </div>

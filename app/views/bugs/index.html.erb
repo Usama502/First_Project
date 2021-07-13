@@ -9,14 +9,18 @@
 		<p>Des: <%= truncate(bug.description, length: 50) %></p>
 		<p>Type: <%= bug.bug_type %></p>
 		<p>Status: <%= bug.status %></p>
-		<p>Assigned to: <%= bug.developer_id %></p>
+		<p>Assigned to: <%= bug.developer.name %></p>
 		<p>Related to: <%= bug.project.name %></p>
 
 		<small style="font-size:10px">Created by: <%= bug.user.name %></small>
-	
+		
+		
 		<div class="col-md-6">
 			<%= link_to "Edit this bug", edit_bug_path(bug),class:"btn btn-primary"%>
-			<%= link_to "Delete this bug", bug_path(bug), method: :delete, data: {confirm: "Are you sure you want to delete this bug"}, class: "btn btn-danger" %>
+			<%if user_signed_in? && bug.user_id == current_user.id %>
+				<%= link_to "Delete this bug", bug_path(bug), method: :delete, data: {confirm: "Are you sure you want to delete this bug"}, class: "btn btn-danger" %>
+			<%end%>
+
 		</div>
 	</div>
 </div>

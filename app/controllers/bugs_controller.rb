@@ -1,9 +1,17 @@
 class BugsController < ApplicationController
 	
-	before_action :logged_in, except: [:index, :show]
+	before_action :logged_in
 
 	def index
-		@bugs = Bug.all
+		if(current_user.user_type == "Manager" || current_user.user_type == "QA")
+			@bugs = current_user.bugs
+		else 
+			@bugs = Bug.where(:developer_id => current_user.id)
+		end
+	end
+
+	def home
+
 	end
 
 	def new
@@ -13,10 +21,10 @@ class BugsController < ApplicationController
 	def create
 
 		@bug = Bug.new(bug_params)
-		@bug.creator_id = current_user.id 
+		@bug.user_id = current_user.id 
 		@bug.status = "New"
 		if @bug.save
-			flash[:success]="Bug added successfully"
+			flash[:success] = "Bug added successfully"
 			redirect_to bug_path(@bug)
 		else
 			render 'new'
@@ -40,6 +48,13 @@ class BugsController < ApplicationController
 			render 'edit'
 		end
 	end
+
+	def destroy
+		Bug.find(params[:id]).destroy
+		flash[:success] = "Bug deleted successfully!"
+		redirect_to bugs_path
+	end
+
 
 	private
 		def bug_params

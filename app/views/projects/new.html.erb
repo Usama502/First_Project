@@ -1,6 +1,7 @@
+<%= render 'shared/errors' , obj: @project%>
 <h1>Create a new Project</h1>
 <div class="row">
-	<div class="col-md-12">
+	<div class="col-md-8">
 		<%= form_for(@project, :html => {class: "form-horizontal", role:"form"}) do |new|%>
 			<div class="form-group">
 				<%= new.label :name%>
@@ -9,9 +10,20 @@
 
 			<div class="form-group">
 				<%= new.label :description%>
-				<%= new.text_area :description ,rows: 10, class: "form-control" ,placeholder: "Enter Description of Project", autofocus: true %>
+				<%= new.text_area :description ,rows: 8, class: "form-control" ,placeholder: "Enter Description of Project", autofocus: true %>
 			</div>
 			
+
+			<div class="form-group">	
+				<%= new.label :assigned_to_developer, "Assigned to Developer"%>		
+				<%= new.collection_select :user_ids, User.where(:user_type => 'Developer'), :id, :name, {}, {:multiple => 'true'} %>
+			</div>
+
+			<div class="form-group">	
+				<%= new.label :assigned_to_qa , "Assigned to QA"%>		
+				<%= new.collection_select :user_ids, User.where(:user_type => 'QA'), :id, :name, {}, {:multiple => 'true'} %>
+			</div>
+
 			<div class="form-group">
 				<%= new.submit class: "btn btn-primary btn-xlarge"%>
 			</div>

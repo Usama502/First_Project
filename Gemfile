@@ -39,6 +39,7 @@ gem 'bootstrap-will_paginate', '~> 0.0.10'
 gem 'jquery-rails'
 gem "rmagick"
 gem "carrierwave"
+gem "file_validators"
 
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
