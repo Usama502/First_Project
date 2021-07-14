@@ -9,6 +9,8 @@
 				<%= new.text_field :title , class: "form-control" ,placeholder: "Title of Bug", autofocus: true %>
 			</div>
 
+			<%= new.hidden_field :project_id, value: @project.id  %>
+
 			<div class="form-group">
 				<%= new.label :description%>
 				<%= new.text_area :description ,rows: 5, class: "form-control" ,placeholder: "Enter Description of Bug", autofocus: true %>
@@ -38,12 +40,16 @@
 		    <% end %>
 	      	<div class="form-group">
 	        	<%= new.label :developer_id %><br />
-	        	<%= new.select :developer_id, User.where(:user_type => "Developer").map{|r| [r.name, r.id]}  %>
+	        	<%= new.select :developer_id, @project.users.where(:user_type => "Developer").map{|r| [r.name, r.id]}  %>
 	      	</div>
+
+
 
 	      	<div class="form-group">
 			   (only .gif, .png allowed) <%= new.file_field :image %>
 	      	</div>
+
+	      	<!--<input type="file" name="image" accept="image/x-png,image/gif" />-->
 
 			<div class="form-group">
 				<%= new.submit class: "btn btn-primary btn-xlarge"%>

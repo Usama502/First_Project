@@ -25,7 +25,11 @@
 
 <hr/>
 
-<h2>Related Bugs</h2>
+<h4><b>Related Bugs</b></h4>
+<% if(user_signed_in? && (current_user.user_type=="Manager" || current_user.user_type == "QA") ) %>
+	<%= link_to "Add new bug", new_bug_path(id: @project.id),class:"btn btn-primary"%>
+	<hr/>
+<% end %>
 <% if @project.bugs.any? %>
 	<% @project.bugs.each do |bug| %>
 		<div class="row">

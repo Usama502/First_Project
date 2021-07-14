@@ -1,7 +1,9 @@
 class BugsController < ApplicationController
 	
 	before_action :logged_in
+	before_action :set_bug, only: [ :show, :edit, :update, :destroy]
 	before_action :require_manager_qa, except: [:index, :show, :edit, :update]
+	before_action :check_user, except: [:index, :new, :create, :show]
 
 
 	def index
@@ -14,12 +16,14 @@ class BugsController < ApplicationController
 
 	def new
 		@bug = Bug.new
+		@project = Project.find_by_id(params[:id])
 	end
 
 	def create
-
+		
 		@bug = Bug.new(bug_params)
 		@bug.user_id = current_user.id 
+		
 		@bug.status = "New"
 		if @bug.save
 			flash[:success] = "Bug added successfully"
@@ -30,15 +34,12 @@ class BugsController < ApplicationController
 	end
 
 	def show
-		@bug = Bug.find(params[:id])
 	end
 
 	def edit
-		@bug = Bug.find(params[:id])
 	end
 
 	def update
-		@bug = Bug.find(params[:id])
 		if @bug.update(bug_params)
 			flash[:success] = "Bug updated successfully!"
 			redirect_to bug_path(@bug)
@@ -70,6 +71,16 @@ class BugsController < ApplicationController
 				flash[:danger] = "Manager and QA can perform this action!"
 				redirect_to bugs_path
 			end
+		end
+
+		def check_user
+			if(! (current_user.id == @bug.user_id || current_user.id == @bug.developer_id))
+				redirect_to bugs_path
+			end
+		end
+
+		def set_bug
+			@bug = Bug.find(params[:id])
 		end
 	end
 end

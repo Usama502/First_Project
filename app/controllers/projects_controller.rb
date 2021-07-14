@@ -1,5 +1,6 @@
 class ProjectsController < ApplicationController
-	
+
+	#load_and_authorize_resource
 	before_action :logged_in	
 	before_action :set_project, only: [:show, :edit, :update, :destroy]
 	before_action :require_manager, except: [:index, :show]
@@ -41,7 +42,7 @@ class ProjectsController < ApplicationController
 	def update
 		if @project.update(project_params)
 			flash[:success] = "Project updated successfully!"
-			redirect_to project_path(@project)
+			redirect_to projects_path
 		else
 			render 'edit'
 		end
